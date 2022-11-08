@@ -10,33 +10,48 @@ const { innerWidth: width, innerHeight: height } = window;
 
 function Slider({ data = [], delay = 1000 }: SliderProps) {
 
+  const [idTimeout, setIdTimeout] = useState<NodeJS.Timeout>();
   const [atualSlide, setAtualSlide] = useState(1000)
-  const [contentView, setContentView] = useState<any>([])
+  const [contentView, setContentView] = useState<React.ReactElement[]>([])
 
   let dataLength = data.length
 
   const drawCarousel = useCallback(() => {
-    let elements: any[] = []
+    let elements: React.ReactElement[] = []
 
-    elements.push(<SliderPage key={atualSlide} content={data[0]} />)
+    elements.push(<SliderPage key={0} content={data[0]} />)
 
     setContentView(elements);
-  }, [setContentView, data, atualSlide, dataLength])
+  }, [setContentView, data])
 
-  const next = () => {
+  function next() {
+    let newSliderContentView: React.ReactElement[] = contentView;
+
     console.log(width)
-    let EsliderContent = document.getElementsByClassName(styles.sliderContent)[0]
-    setContentView(prevContentView => [...prevContentView, <SliderPage key={atualSlide + 1} content={data[atualSlide + 1]} />])
-    EsliderContent.style.setProperty('left', `-${width}px`)
-    //EsliderContent.style.setProperty('left', `0`)
-    setAtualSlide(atualSlide + 1)
 
-    console.log(contentView)
+    if (idTimeout) {
+      clearTimeout(idTimeout);
+    }
+
+    let EsliderContent = Array.from(document.getElementsByClassName(styles.sliderContent) as HTMLCollectionOf<HTMLElement>)[0]
+    newSliderContentView.push(<SliderPage key={`${Math.random()}-atualSlide + 1`} content={data[(atualSlide + 1) % dataLength]} />)
+    setContentView(newSliderContentView)
+    EsliderContent.style.setProperty('left', `-${width}px`)
+
+    let id = setTimeout(() => {
+      setContentView(newSliderContentView.slice(newSliderContentView.length - 1))
+      EsliderContent.style.setProperty('transition', `none`)
+      EsliderContent.style.setProperty('left', `0px`)
+      setTimeout(() => EsliderContent.style.setProperty('transition', '1s all'), 1000)
+
+    }, 1000);
+    setIdTimeout(id);
+    setAtualSlide(atualSlide + 1)
+    console.log(contentView, atualSlide, data[(atualSlide + 1) % dataLength], idTimeout)
   }
 
   const prev = () => {
-    console.log(width)
-    let EsliderContent = document.getElementsByClassName(styles.sliderContent)[0]
+    let EsliderContent = Array.from(document.getElementsByClassName(styles.sliderContent) as HTMLCollectionOf<HTMLElement>)[0]
     EsliderContent.style.setProperty('left', `0px`)
     setAtualSlide(atualSlide - 1)
   }
@@ -49,8 +64,7 @@ function Slider({ data = [], delay = 1000 }: SliderProps) {
 
   useEffect(() => {
     drawCarousel();
-    console.log(atualSlide)
-  }, [drawCarousel, atualSlide])
+  }, [drawCarousel])
 
   return (
     <div className='slider'>

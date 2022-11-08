@@ -2,7 +2,7 @@
   width: 100vw;
   position: relative;
   transition: all 1s;
-  display: inline-flex;
+  display: -webkit-box;
   justify-content: space-around;
 }
 
