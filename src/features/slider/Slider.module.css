@@ -1,13 +1,3 @@
-.sliderContent {
-  width: 100vw;
-  position: relative;
-  transition: all 1s;
-  display: -webkit-box;
-  justify-content: space-around;
-}
-
-.sliderPage{
-  width: 100vw;
-  background-color: black;
-  color: white;
+.splide {
+  height: 100vh;
 }

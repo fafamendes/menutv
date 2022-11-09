@@ -9,6 +9,46 @@ function App() {
   );
 }
 
-const data = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
+const data = [
+  {
+    title: 'Panificação',
+    products: [
+      {
+        name: 'Pão francês',
+        price: 'R$ 7,34'
+      },
+      {
+        name: 'Sonho',
+        price: 'R$ 3,00',
+      }
+    ]
+  },
+  {
+    title: 'Bebidas',
+    products: [
+      {
+        name: 'Heineken Long Neck',
+        price: 'R$ 9,00'
+      },
+      {
+        name: 'Coca-cola Lata',
+        price: 'R$ 4,00'
+      },
+      {
+        name: 'Budweiser',
+        price: 'R$ 6,99'
+      }
+    ]
+  },
+  {
+    title: 'Ofertas',
+    products: [
+      {
+        name: 'Brigadeiro',
+        price: 'R$ 0,99'
+      }
+    ]
+  },
+]
 
 export default App;
