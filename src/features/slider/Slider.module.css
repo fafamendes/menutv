@@ -1,3 +1,18 @@
+@font-face {
+  font-family: 'Bellania';
+  src: url('/public/fonts/bellania.ttf');
+}
+
+@font-face {
+  font-family: 'Roboto Light';
+  src: url('/public/fonts/Roboto-Light.ttf');
+}
+
+@font-face {
+  font-family: 'Roboto Black';
+  src: url('/public/fonts/Roboto-Black.ttf');
+}
+
 .splide {
   height: 100vh;
 }
@@ -17,39 +32,44 @@
 .page>div {
   padding-top: 5%;
   height: 100%;
-  background-color: rgba(255, 255, 255, 0.7);
+  background-color: rgba(127, 127, 127, 0.3);
 }
 
 .page div>h1 {
+  float: right;
+  display: flex;
+  padding: 1% 5%;
+  font-size: 300%;
+  text-align: right;
+  margin: auto 2% 1%;
   margin: 0px auto 5%;
-  padding-top: 5%;
+  color: rgb(8, 36, 32);
+  font-family: 'Roboto Black';
+  background-color: rgba(255, 255, 255, 0.5);
+  border-bottom: 3px solid rgb(8, 36, 32);
 }
 
 .product {
-  position: relative;
-  display: table;
   width: 90%;
-  margin: auto;
+  display: table;
+  margin: 0 auto;
+  position: relative;
   background-color: rgba(255, 255, 255, 0.9);
-  border-bottom: 2px solid rgba(0, 0, 0, .5);
   box-shadow: rgb(0 0 0 / 50%) 0 7px 9px 0px;
 }
 
 .product>img {
   object-fit: cover;
   width: 50%;
-  max-height: 200px;
   position: relative;
 }
 
 .product.left {
   border-top-right-radius: 25px;
-  border-right: 1px solid rgba(0, 0, 0, .3);
 }
 
 .product.right {
   border-top-left-radius: 25px;
-  border-left: 2px solid rgba(0, 0, 0, .5);
 }
 
 .product.left>img {
@@ -63,21 +83,62 @@
 
 .product.left .productDetails {
   text-align: right;
-
 }
 
 .product.right .productDetails {
   text-align: left;
 }
 
-.productDetails {
-  padding: 1%;
+.productName {
+  font-style: 'Roboto Black';
+  font-size: 200%;
+  text-decoration: underline;
+  color: rgb(8, 36, 32);
+  margin: 1% auto 0;
 }
 
+.description {
+  padding: 1%;
+  display: table;
+  font-size: 140%;
+  overflow: hidden;
+  position: relative;
+  text-overflow: ellipsis;
+  font-family: 'Roboto Light';
+}
+
+.priceContainer {
+  bottom: 0;
+  display: table;
+  padding: 0 10% 1%;
+  position: absolute;
+  color: rgb(255, 255, 255);
+  background-color: rgb(8, 36, 32);
+}
+
+.product.left .priceContainer {
+  right: 0;
+}
+
+.price {
+  font-size: 120%;
+  font-style: italic;
+  align-self: center;
+  font-family: 'Bellania';
+  position: relative;
+}
+
+.portion {
+  font-family: 'Roboto Light';
+  font-size: 120%;
+  display: block;
+  text-align: center;
+}
 
 .divider {
-  height: 0px;
-  border: 2px solid rgb(44, 44, 44);
+  height: 5px;
   width: 70%;
   margin: 5% auto;
+  position: relative;
+  background-color: rgb(36, 36, 36);
 }
