@@ -4,7 +4,7 @@ import Slider from './features/slider/Slider'
 function App() {
   return (
     <div className="App">
-      <Slider data={data} delay={2000} />
+      <Slider data={data} interval={5000} />
     </div>
   );
 }

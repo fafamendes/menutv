@@ -1,4 +1,4 @@
-import React, { ReactElement, useCallback, } from 'react';
+import React, { ReactElement, useCallback, useState, useEffect } from 'react';
 import { Splide, SplideTrack, SplideSlide } from '@splidejs/react-splide';
 
 import '@splidejs/react-splide/css';
@@ -6,7 +6,7 @@ import styles from './Slider.module.css';
 
 interface interfaceSliderProps {
   data?: any,
-  delay?: number
+  interval?: number
 }
 
 interface interfaceProduct {
@@ -24,26 +24,42 @@ interface interfaceSlide {
   title: string,
   products?: interfaceProduct[]
   backgroundImageCategoryUrl?: string,
+  countdown?: number
 }
 
 const { innerHeight } = window;
 
-function Slider({ data = [], delay = 1000 }: interfaceSliderProps) {
+function Slider({ data = [], interval = 1000 }: interfaceSliderProps) {
+  const [countdown, setCountdown] = useState(interval / 1000)
+  const [refTime, setRefTime] = useState(Date.now())
+
+  const chronometer = useCallback(() => {
+
+    setInterval(() => {
+      setCountdown(() => Number((interval - (((Date.now() - refTime)) % (interval)) + 500) / 1000))
+    }, 1000)
+
+  }, [interval, refTime])
+
+  useEffect(() => {
+    console.log('Entrei aqui')
+    chronometer()
+  }, [chronometer])
+
 
   const drawSlides = useCallback(() => {
     let elements: ReactElement[] = []
-
     data.map((slide: interfaceSlide, key: number) => {
       return elements.push(
         <SplideSlide key={`slide-${key}`}>
-          <SlidePage key={`slide-page-${key}`}
+          <SlidePage countdown={countdown} key={`slide-page-${key}`}
             title={slide.title}
             products={slide.products}
             backgroundImageCategoryUrl={slide.backgroundImageCategoryUrl} />
         </SplideSlide>)
     });
     return elements;
-  }, [data])
+  }, [data, countdown])
 
   return (
     <>
@@ -53,7 +69,7 @@ function Slider({ data = [], delay = 1000 }: interfaceSliderProps) {
         pagination: false,
         arrows: false,
         speed: 500,
-        interval: 5000
+        interval: interval,
       }} className={`splide ${styles.splide}`}>
         <SplideTrack className={`${styles.track}`}>
           {drawSlides()}
@@ -64,7 +80,7 @@ function Slider({ data = [], delay = 1000 }: interfaceSliderProps) {
 }
 
 
-function SlidePage({ title, products, backgroundImageCategoryUrl }: interfaceSlide, key: string) {
+function SlidePage({ title, products, backgroundImageCategoryUrl, countdown }: interfaceSlide, key: string) {
   let style = {
     backgroundImage: backgroundImageCategoryUrl ? `url('${backgroundImageCategoryUrl}')` : '',
   }
@@ -73,6 +89,7 @@ function SlidePage({ title, products, backgroundImageCategoryUrl }: interfaceSli
     <div className={styles.page} style={style} key={key}>
       <div>
         <h1>{title.toLocaleUpperCase()}</h1>
+        <span className={styles.countdown}>{countdown?.toFixed()}</span>
         <div>
           {
             products?.map((product: interfaceProduct, key: number) =>

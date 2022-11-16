@@ -35,13 +35,26 @@
   background-color: rgba(127, 127, 127, 0.3);
 }
 
-.page div>h1 {
+.page .countdown{
+  right: 2%;
+  height: 5%;
+  width: 10%;
   float: right;
+  color: white;
+  font-size: 4rem;
+  position: relative;
+  border-radius: 100%;
+  display: table-cell;
+  align-items: center;
+  background-color: #bbb;
+}
+
+.page div>h1 {
+  float: left;
   display: flex;
   padding: 1% 5%;
-  font-size: 300%;
+  font-size: 3rem;
   text-align: right;
-  margin: auto 2% 1%;
   margin: 0px auto 5%;
   color: rgb(8, 36, 32);
   font-family: 'Roboto Black';
@@ -91,7 +104,7 @@
 
 .productName {
   font-style: 'Roboto Black';
-  font-size: 200%;
+  font-size: 2rem;
   text-decoration: underline;
   color: rgb(8, 36, 32);
   margin: 1% auto 0;
@@ -100,7 +113,7 @@
 .description {
   padding: 1%;
   display: table;
-  font-size: 140%;
+  font-size: 1.5rem;
   overflow: hidden;
   position: relative;
   text-overflow: ellipsis;
@@ -121,18 +134,19 @@
 }
 
 .price {
-  font-size: 120%;
+  font-size: 1rem;
   font-style: italic;
   align-self: center;
-  font-family: 'Bellania';
   position: relative;
+  font-family: 'Bellania';
 }
 
 .portion {
-  font-family: 'Roboto Light';
-  font-size: 120%;
   display: block;
+  font-size: 1rem;
   text-align: center;
+  position: relative;
+  font-family: 'Roboto Light';
 }
 
 .divider {
