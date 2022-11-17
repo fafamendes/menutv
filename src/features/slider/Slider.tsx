@@ -24,53 +24,46 @@ interface interfaceSlide {
   title: string,
   products?: interfaceProduct[]
   backgroundImageCategoryUrl?: string,
-  countdown?: number
+  interval: number,
+  countdownFlag?: boolean,
 }
 
 const { innerHeight } = window;
 
-function Slider({ data = [], interval = 1000 }: interfaceSliderProps) {
-  const [countdown, setCountdown] = useState(interval / 1000)
-  const [refTime, setRefTime] = useState(Date.now())
+function Slider({ data = [], interval = 3000 }: interfaceSliderProps) {
 
-  const chronometer = useCallback(() => {
-
-    setInterval(() => {
-      setCountdown(() => Number((interval - (((Date.now() - refTime)) % (interval)) + 500) / 1000))
-    }, 1000)
-
-  }, [interval, refTime])
-
-  useEffect(() => {
-    console.log('Entrei aqui')
-    chronometer()
-  }, [chronometer])
-
+  const [countdownFlag, setCountdownFlag] = useState(false)
 
   const drawSlides = useCallback(() => {
     let elements: ReactElement[] = []
     data.map((slide: interfaceSlide, key: number) => {
       return elements.push(
         <SplideSlide key={`slide-${key}`}>
-          <SlidePage countdown={countdown} key={`slide-page-${key}`}
+          <SlidePage key={`slide-page-${key}`}
             title={slide.title}
             products={slide.products}
-            backgroundImageCategoryUrl={slide.backgroundImageCategoryUrl} />
+            countdownFlag={countdownFlag}
+            backgroundImageCategoryUrl={slide.backgroundImageCategoryUrl}
+            interval={interval}
+          />
         </SplideSlide>)
     });
     return elements;
-  }, [data, countdown])
+  }, [data, interval, countdownFlag])
 
   return (
     <>
-      <Splide hasTrack={false} options={{
-        type: 'loop',
-        autoplay: true,
-        pagination: false,
-        arrows: false,
-        speed: 500,
-        interval: interval,
-      }} className={`splide ${styles.splide}`}>
+      <Splide hasTrack={false}
+        onMove={() => setCountdownFlag(() => true)}
+        onMoved={() => setCountdownFlag(() => false)}
+        options={{
+          type: 'loop',
+          autoplay: true,
+          pagination: false,
+          arrows: false,
+          speed: 500,
+          interval: interval,
+        }} className={`splide ${styles.splide}`}>
         <SplideTrack className={`${styles.track}`}>
           {drawSlides()}
         </SplideTrack>
@@ -80,7 +73,7 @@ function Slider({ data = [], interval = 1000 }: interfaceSliderProps) {
 }
 
 
-function SlidePage({ title, products, backgroundImageCategoryUrl, countdown }: interfaceSlide, key: string) {
+function SlidePage({ title, products, backgroundImageCategoryUrl, interval, countdownFlag }: interfaceSlide, key: string) {
   let style = {
     backgroundImage: backgroundImageCategoryUrl ? `url('${backgroundImageCategoryUrl}')` : '',
   }
@@ -89,7 +82,7 @@ function SlidePage({ title, products, backgroundImageCategoryUrl, countdown }: i
     <div className={styles.page} style={style} key={key}>
       <div>
         <h1>{title.toLocaleUpperCase()}</h1>
-        <span className={styles.countdown}>{countdown?.toFixed()}</span>
+        <TimerBar interval={interval} countdownFlag={countdownFlag} />
         <div>
           {
             products?.map((product: interfaceProduct, key: number) =>
@@ -131,6 +124,25 @@ function Product({ name, price, orientation, productImageUrl, description, porti
       </div >
       <div className={styles.divider}></div>
     </>
+  )
+}
+
+
+interface interfacaceTimerBar {
+  countdownFlag?: boolean,
+  interval: number
+}
+
+function TimerBar({ countdownFlag, interval }: interfacaceTimerBar) {
+
+  const [style, setStyle] = useState({});
+
+  useEffect(() => countdownFlag ? setStyle(() => ({ width: '100vw', transition: 'all 0s' }))
+    : setStyle(() => ({ width: 0, transition: `all ${interval / 1000}s linear` }))
+    , [interval, countdownFlag])
+
+  return (
+    <div style={style} className={[styles.timeBar, styles.timeBarActive].join(' ')}></div>
   )
 }
 

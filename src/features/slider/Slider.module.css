@@ -35,7 +35,7 @@
   background-color: rgba(127, 127, 127, 0.3);
 }
 
-.page .countdown{
+.page .countdown {
   right: 2%;
   height: 5%;
   width: 10%;
@@ -60,6 +60,16 @@
   font-family: 'Roboto Black';
   background-color: rgba(255, 255, 255, 0.5);
   border-bottom: 3px solid rgb(8, 36, 32);
+}
+
+
+.timeBar {
+  top: 0;
+  height: 20px;
+  width: 100vw;
+  position: absolute;
+  transition: all 0;
+  background-color:rgb(8, 36, 32);
 }
 
 .product {
